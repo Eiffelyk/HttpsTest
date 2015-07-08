@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">HttpsTest</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn">有证书</string>
+    <string name="btn2">没证书</string>
+    <string name="testshow">测试返回值</string>
+</resources>

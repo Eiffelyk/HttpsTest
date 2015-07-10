@@ -3,6 +3,9 @@ package utils.eiffelyk.www.httpstest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -45,6 +49,7 @@ public class MainActivity extends Activity {
         btn1 = (Button) this.findViewById(R.id.button1);
         btn2 = (Button) this.findViewById(R.id.button2);
         textView = (TextView) this.findViewById(R.id.textView);
+        textView.setMovementMethod(ScrollingMovementMethod.getInstance());
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +104,30 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+    private  MyHandler myHandler = new MyHandler(this);
+    private static class MyHandler extends Handler{
+        private final WeakReference<MainActivity> myActivity;
+
+        public MyHandler(MainActivity myThis) {
+            this.myActivity = new WeakReference<MainActivity>(myThis);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            MainActivity myThis = this.myActivity.get();
+            switch (msg.what){
+                case  1:
+                    myThis.textView.scrollTo(0,0);
+                    myThis.textView.setText(msg.obj.toString());
+                    break;
+            }
+        }
+    }
     /**
      * HttpUrlConnection 方式，支持指定load-der.crt证书验证，此种方式Android官方建议
      * @throws CertificateException
@@ -116,15 +145,12 @@ public class MainActivity extends Activity {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             InputStream in = getAssets().open("srca.cer");
             Certificate ca = cf.generateCertificate(in);
-
             KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
             keystore.load(null, null);
             keystore.setCertificateEntry("ca", ca);
-
             String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
             tmf.init(keystore);
-
             // Create an SSLContext that uses our TrustManager
             SSLContext context = SSLContext.getInstance("TLS");
             context.init(null, tmf.getTrustManagers(), null);
@@ -150,6 +176,10 @@ public class MainActivity extends Activity {
             result.append(line);
         }
         Log.e("馋猫", result.toString());
+        Message message = myHandler.obtainMessage();
+        message.what =1;
+        message.obj = result.toString();
+        myHandler.sendMessage(message);
     }
 
     /**
@@ -196,6 +226,10 @@ public class MainActivity extends Activity {
             result.append(line);
         }
         Log.e("馋猫", result.toString());
+        Message message = myHandler.obtainMessage();
+        message.what = 1;
+        message.obj = result.toString();
+        myHandler.sendMessage(message);
     }
 
 

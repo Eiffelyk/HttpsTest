@@ -45,25 +45,25 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory {
 
             @Override
             public void verify(String host, String[] cns, String[] subjectAlts) throws SSLException {
-                // TODO Auto-generated method stub
+                
 
             }
 
             @Override
             public void verify(String host, X509Certificate cert) throws SSLException {
-                // TODO Auto-generated method stub
+                
 
             }
 
             @Override
             public void verify(String host, SSLSocket ssl) throws IOException {
-                // TODO Auto-generated method stub
+                //  Auto-generated method stub
 
             }
 
             @Override
             public boolean verify(String host, SSLSession session) {
-                // TODO Auto-generated method stub
+                //  Auto-generated method stub
                 return true;
             }
         });
@@ -74,16 +74,16 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory {
             try {
                 instance = new TrustAllSSLSocketFactory();
             } catch (KeyManagementException e) {
-                // TODO Auto-generated catch block
+                //  Auto-generated catch block
                 e.printStackTrace();
             } catch (UnrecoverableKeyException e) {
-                // TODO Auto-generated catch block
+                //  Auto-generated catch block
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
-                // TODO Auto-generated catch block
+                //  Auto-generated catch block
                 e.printStackTrace();
             } catch (KeyStoreException e) {
-                // TODO Auto-generated catch block
+                //  Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -119,20 +119,20 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory {
         @Override
         public void checkClientTrusted(X509Certificate[] arg0, String arg1)
                 throws CertificateException {
-            // TODO Auto-generated method stub
+            //  Auto-generated method stub
 
         }
 
         @Override
         public void checkServerTrusted(X509Certificate[] arg0, String arg1)
                 throws CertificateException {
-            // TODO Auto-generated method stub
+            //  Auto-generated method stub
 
         }
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
-            // TODO Auto-generated method stub
+            //  Auto-generated method stub
             return null;
         }
     }

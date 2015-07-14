@@ -40,14 +40,13 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 public class MainActivity extends Activity {
-    private Button btn1,btn2;
     private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn1 = (Button) this.findViewById(R.id.button1);
-        btn2 = (Button) this.findViewById(R.id.button2);
+        Button btn1 = (Button) this.findViewById(R.id.button1);
+        Button btn2 = (Button) this.findViewById(R.id.button2);
         textView = (TextView) this.findViewById(R.id.textView);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +112,7 @@ public class MainActivity extends Activity {
         private final WeakReference<MainActivity> myActivity;
 
         public MyHandler(MainActivity myThis) {
-            this.myActivity = new WeakReference<MainActivity>(myThis);
+            this.myActivity = new WeakReference<>(myThis);
         }
 
         @Override
@@ -141,7 +140,7 @@ public class MainActivity extends Activity {
         String httpUrl = "https://kyfw.12306.cn/otn/";
         URL url = new URL(httpUrl);
         InputStream input;
-        if (httpUrl!=null&& httpUrl.contains("https")){
+        if (httpUrl.contains("https")){
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             InputStream in = getAssets().open("srca.cer");
             Certificate ca = cf.generateCertificate(in);
@@ -195,7 +194,7 @@ public class MainActivity extends Activity {
         String httpUrl = "https://pan.baidu.com/disk/home";
         URL url = new URL(httpUrl);
         InputStream in;
-        if (httpUrl != null && httpUrl.contains("https")) {
+        if (httpUrl.contains("https")) {
             SSLContext context = SSLContext.getInstance("TLS");
             context.init(null, new TrustManager[]{new TrustAllManager()}, null);
             HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
@@ -255,7 +254,6 @@ public class MainActivity extends Activity {
     }
     /**
      * HttpClient方式实现，支持所有Https免验证方式链接
-     *
      * @throws ClientProtocolException
      * @throws IOException
      *//*
